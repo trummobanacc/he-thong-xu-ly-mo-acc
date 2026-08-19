@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Hùng Admin</title>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#080b14">
+<link rel="apple-touch-icon" href="./1787140316601.png">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+:root{
+    --bg:#080b14;
+    --card:#111827;
+    --text:#fff;
+    --muted:#8490a8;
+    --border:rgba(255,255,255,.09);
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top right,#12325c 0,transparent 35%),
+        radial-gradient(circle at bottom left,#102d27 0,transparent 35%),
+        var(--bg);
+    color:var(--text);
+    padding:20px;
+    transition:.25s;
+}
+
+body.light{
+    --bg:#eef3f9;
+    --card:#fff;
+    --text:#101622;
+    --muted:#69758a;
+    --border:rgba(0,0,0,.08);
+}
+
+.container{
+    width:100%;
+    max-width:850px;
+    margin:auto;
+}
+
+.header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:25px;
+}
+
+.logo-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:48px;
+    height:48px;
+    border-radius:15px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#008cff,#0055ff);
+    font-size:23px;
+    box-shadow:0 8px 30px rgba(0,120,255,.25);
+}
+
+.title{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.subtitle{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:3px;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    color:#66e8ae;
+    font-size:12px;
+}
+
+.dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#00d084;
+    box-shadow:0 0 10px #00d084;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.card{
+    background:linear-gradient(
+        145deg,
+        rgba(255,255,255,.07),
+        rgba(255,255,255,.025)
+    );
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:22px;
+    min-height:145px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(0,150,255,.35);
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+}
+
+.card:active{
+    transform:scale(.97);
+}
+
+.card-icon{
+    font-size:25px;
+    margin-bottom:18px;
+}
+
+.card-name{
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.number{
+    font-size:29px;
+    font-weight:bold;
+}
+
+.change{
+    font-size:11px;
+    color:#55dda0;
+    margin-top:7px;
+}
+
+.request{
+    border-color:rgba(255,170,0,.15);
+}
+
+.request .number{
+    color:#ffc44d;
+}
+
+.page{
+    display:none;
+}
+
+.page.show{
+    display:block;
+    animation:pageIn .3s ease;
+}
+
+@keyframes pageIn{
+    from{
+        opacity:0;
+        transform:translateY(15px) scale(.97);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.page-header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.back{
+    width:42px;
+    height:42px;
+    border:1px solid var(--border);
+    border-radius:13px;
+    background:var(--card);
+    color:var(--text);
+    font-size:20px;
+    cursor:pointer;
+}
+
+.page-title{
+    font-size:21px;
+    font-weight:bold;
+}
+
+.page-desc{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:3px;
+}
+
+.setting-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.setting{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:17px;
+    border-radius:17px;
+    background:var(--card);
+    border:1px solid var(--border);
+}
+
+.setting-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.setting-icon{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:rgba(255,255,255,.06);
+    font-size:18px;
+}
+
+.setting-name{
+    font-size:14px;
+    font-weight:bold;
+}
+
+.setting-desc{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:3px;
+}
+
+.switch{
+    width:48px;
+    height:27px;
+    border-radius:30px;
+    background:#293244;
+    position:relative;
+    cursor:pointer;
+    transition:.25s;
+    flex-shrink:0;
+}
+
+.switch::after{
+    content:"";
+    width:21px;
+    height:21px;
+    border-radius:50%;
+    background:white;
+    position:absolute;
+    top:3px;
+    left:3px;
+    transition:.25s;
+}
+
+.switch.active{
+    background:#087eff;
+}
+
+.switch.active::after{
+    left:24px;
+}
+
+.action{
+    width:100%;
+    border:none;
+    border-radius:15px;
+    padding:15px;
+    margin-top:10px;
+    font-weight:bold;
+    color:white;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.action:active{
+    transform:scale(.97);
+}
+
+.process{
+    background:linear-gradient(90deg,#00c982,#00a66e);
+}
+
+.reset{
+    background:linear-gradient(90deg,#ff5571,#e93250);
+}
+
+.install{
+    cursor:pointer;
+}
+
+.install-arrow{
+    font-size:22px;
+}
+
+.stat-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.stat-row{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:17px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.stat-value{
+    font-weight:bold;
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%) translateY(100px);
+    width:calc(100% - 40px);
+    max-width:380px;
+    background:#151d2d;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:15px;
+    padding:15px;
+    text-align:center;
+    font-size:13px;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    z-index:100;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+.footer{
+    text-align:center;
+    color:#4f5a70;
+    font-size:10px;
+    margin-top:25px;
+}
+
+@media(max-width:600px){
+
+    body{
+        padding:15px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        min-height:125px;
+    }
+
+    .header{
+        align-items:flex-start;
+    }
+
+    .status{
+        margin-top:7px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="dashboard">
+
+    <div class="header">
+
+        <div class="logo-area">
+
+            <div class="logo">⚡</div>
+
+            <div>
+                <div class="title">HÙNG ADMIN</div>
+                <div class="subtitle">Control Center</div>
+            </div>
+
+        </div>
+
+        <div class="status">
+            <span class="dot"></span>
+            Online
+        </div>
+
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+
+            <div class="card-icon">👥</div>
+
+            <div class="card-name">
+                Người truy cập
+            </div>
+
+            <div
+                class="number"
+                id="views"
+            >
+                1.247
+            </div>
+
+            <div class="change">
+                ↑ +12,4% hôm nay
+            </div>
+
+        </div>
+
+        <div class="card request">
+
+            <div class="card-icon">🔐</div>
+
+            <div class="card-name">
+                Yêu cầu xử lý
+            </div>
+
+            <div
+                class="number"
+                id="requests"
+            >
+                3.127
+            </div>
+
+            <div class="change">
+                ↑ Đang cập nhật
+            </div>
+
+        </div>
+
+        <div
+            class="card"
+            onclick="openPage('statsPage')"
+        >
+
+            <div class="card-icon">📊</div>
+
+            <div class="card-name">
+                Thống kê
+            </div>
+
+            <div class="number">
+                Xem
+            </div>
+
+            <div class="change">
+                Chi tiết hệ thống →
+            </div>
+
+        </div>
+
+        <div
+            class="card"
+            onclick="openPage('settingsPage')"
+        >
+
+            <div class="card-icon">⚙️</div>
+
+            <div class="card-name">
+                Cài đặt
+            </div>
+
+            <div class="number">
+                Mở
+            </div>
+
+            <div class="change">
+                Quản lý hệ thống →
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Hùng Admin System
+    </div>
+
+</div>
+
+
+<div
+    id="settingsPage"
+    class="page"
+>
+
+    <div class="page-header">
+
+        <button
+            class="back"
+            onclick="backHome()"
+        >
+            ←
+        </button>
+
+        <div>
+            <div class="page-title">
+                Cài đặt
+            </div>
+
+            <div class="page-desc">
+                Tùy chỉnh dashboard
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="setting-list">
+
+        <div class="setting">
+
+            <div class="setting-left">
+
+                <div class="setting-icon">
+                    🌙
+                </div>
+
+                <div>
+                    <div class="setting-name">
+                        Giao diện tối
+                    </div>
+
+                    <div class="setting-desc">
+                        Bật hoặc tắt dark mode
+                    </div>
+                </div>
+
+            </div>
+
+            <div
+                id="darkSwitch"
+                class="switch active"
+                onclick="toggleDark()"
+            ></div>
+
+        </div>
+
+
+        <div class="setting">
+
+            <div class="setting-left">
+
+                <div class="setting-icon">
+                    🔔
+                </div>
+
+                <div>
+                    <div class="setting-name">
+                        Thông báo
+                    </div>
+
+                    <div class="setting-desc">
+                        Hiển thị thông báo
+                    </div>
+                </div>
+
+            </div>
+
+            <div
+                id="notifySwitch"
+                class="switch active"
+                onclick="toggleNotify()"
+            ></div>
+
+        </div>
+
+
+        <div class="setting">
+
+            <div class="setting-left">
+
+                <div class="setting-icon">
+                    ✨
+                </div>
+
+                <div>
+                    <div class="setting-name">
+                        Animation
+                    </div>
+
+                    <div class="setting-desc">
+                        Hiệu ứng chuyển động
+                    </div>
+                </div>
+
+            </div>
+
+            <div
+                id="animationSwitch"
+                class="switch active"
+                onclick="toggleAnimation()"
+            ></div>
+
+        </div>
+
+
+        <div class="setting">
+
+            <div class="setting-left">
+
+                <div class="setting-icon">
+                    🤖
+                </div>
+
+                <div>
+                    <div class="setting-name">
+                        Xử lý tự động
+                    </div>
+
+                    <div class="setting-desc">
+                        Tự động xử lý yêu cầu
+                    </div>
+                </div>
+
+            </div>
+
+            <div
+                id="autoSwitch"
+                class="switch"
+                onclick="toggleAuto()"
+            ></div>
+
+        </div>
+
+
+        <div
+            id="installButton"
+            class="setting install"
+            onclick="installApp()"
+            style="display:none;"
+        >
+
+            <div class="setting-left">
+
+                <div class="setting-icon">
+                    📱
+                </div>
+
+                <div>
+                    <div class="setting-name">
+                        Thêm vào màn hình chính
+                    </div>
+
+                    <div class="setting-desc">
+                        Cài Hùng Admin như ứng dụng
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="install-arrow">
+                ›
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="action process"
+        onclick="processRequests()"
+    >
+        🧹 Xử lý yêu cầu ngay
+    </button>
+
+
+    <button
+        class="action reset"
+        onclick="resetData()"
+    >
+        🔄 Reset dữ liệu
+    </button>
+
+</div>
+
+
+<div
+    id="statsPage"
+    class="page"
+>
+
+    <div class="page-header">
+
+        <button
+            class="back"
+            onclick="backHome()"
+        >
+            ←
+        </button>
+
+        <div>
+
+            <div class="page-title">
+                Thống kê
+            </div>
+
+            <div class="page-desc">
+                Tổng quan hệ thống
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="stat-list">
+
+        <div class="stat-row">
+
+            <div class="stat-label">
+                Người truy cập
+            </div>
+
+            <div
+                class="stat-value"
+                id="statViews"
+            >
+                1.247
+            </div>
+
+        </div>
+
+
+        <div class="stat-row">
+
+            <div class="stat-label">
+                Yêu cầu hiện tại
+            </div>
+
+            <div
+                class="stat-value"
+                id="statRequests"
+            >
+                3.127
+            </div>
+
+        </div>
+
+
+        <div class="stat-row">
+
+            <div class="stat-label">
+                Trạng thái
+            </div>
+
+            <div
+                class="stat-value"
+                style="color:#00d084"
+            >
+                Hoạt động
+            </div>
+
+        </div>
+
+
+        <div class="stat-row">
+
+            <div class="stat-label">
+                Cập nhật tiếp theo
+            </div>
+
+            <div
+                class="stat-value"
+                id="nextUpdate"
+            >
+                10:00
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script>
+
+let requests = 3127;
+let views = 1247;
+
+let autoProcess = false;
+let notifications = true;
+let animations = true;
+let darkMode = true;
+
+let toastTimer;
+
+
+function formatNumber(number){
+
+    return number
+        .toString()
+        .replace(
+            /\B(?=(\d{3})+(?!\d))/g,
+            "."
+        );
+
+}
+
+
+function updateUI(){
+
+    document.getElementById("requests")
+        .textContent =
+        formatNumber(requests);
+
+    document.getElementById("views")
+        .textContent =
+        formatNumber(views);
+
+    document.getElementById("statRequests")
+        .textContent =
+        formatNumber(requests);
+
+    document.getElementById("statViews")
+        .textContent =
+        formatNumber(views);
+
+}
+
+
+function showToast(message){
+
+    if(!notifications){
+        return;
+    }
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(
+        function(){
+
+            toast.classList.remove("show");
+
+        },
+        2200
+    );
+
+}
+
+
+function toggleDark(){
+
+    darkMode = !darkMode;
+
+    document.body.classList.toggle(
+        "light",
+        !darkMode
+    );
+
+    document
+        .getElementById("darkSwitch")
+        .classList.toggle(
+            "active",
+            darkMode
+        );
+
+    showToast(
+        darkMode
+        ? "🌙 Đã bật giao diện tối."
+        : "☀️ Đã bật giao diện sáng."
+    );
+
+}
+
+
+function toggleNotify(){
+
+    notifications = !notifications;
+
+    document
+        .getElementById("notifySwitch")
+        .classList.toggle(
+            "active",
+            notifications
+        );
+
+    if(notifications){
+
+        showToast(
+            "🔔 Thông báo đã bật."
+        );
+
+    }
+
+}
+
+
+function toggleAnimation(){
+
+    animations = !animations;
+
+    document
+        .getElementById("animationSwitch")
+        .classList.toggle(
+            "active",
+            animations
+        );
+
+    document.body.style.setProperty(
+        "--animation-time",
+        animations ? ".25s" : "0s"
+    );
+
+    showToast(
+        animations
+        ? "✨ Animation đã bật."
+        : "Animation đã tắt."
+    );
+
+}
+
+
+function toggleAuto(){
+
+    autoProcess = !autoProcess;
+
+    document
+        .getElementById("autoSwitch")
+        .classList.toggle(
+            "active",
+            autoProcess
+        );
+
+    showToast(
+        autoProcess
+        ? "🤖 Đã bật xử lý tự động."
+        : "Xử lý tự động đã tắt."
+    );
+
+}
+
+
+function processRequests(){
+
+    requests = 0;
+
+    updateUI();
+
+    showToast(
+        "✓ Đã xử lý toàn bộ yêu cầu."
+    );
+
+}
+
+
+function resetData(){
+
+    requests = 3127;
+    views = 1247;
+    autoProcess = false;
+
+    document
+        .getElementById("autoSwitch")
+        .classList.remove("active");
+
+    updateUI();
+
+    showToast(
+        "↻ Đã reset dữ liệu."
+    );
+
+}
+
+
+function increaseRequests(){
+
+    const increase =
+        Math.floor(
+            Math.random() * 601
+        ) + 2700;
+
+    requests += increase;
+
+    updateUI();
+
+    if(autoProcess){
+
+        setTimeout(
+            processRequests,
+            1000
+        );
+
+    }
+
+}
+
+
+setInterval(
+    increaseRequests,
+    600000
+);
+
+
+setInterval(
+    function(){
+
+        views +=
+            Math.floor(
+                Math.random() * 8
+            ) + 2;
+
+        updateUI();
+
+    },
+    30000
+);
+
+
+function openPage(pageId){
+
+    document
+        .getElementById("dashboard")
+        .style.display = "none";
+
+    document
+        .getElementById("settingsPage")
+        .classList.remove("show");
+
+    document
+        .getElementById("statsPage")
+        .classList.remove("show");
+
+    document
+        .getElementById(pageId)
+        .classList.add("show");
+
+}
+
+
+function backHome(){
+
+    document
+        .getElementById("settingsPage")
+        .classList.remove("show");
+
+    document
+        .getElementById("statsPage")
+        .classList.remove("show");
+
+    document
+        .getElementById("dashboard")
+        .style.display = "block";
+
+}
+
+
+let secondsLeft = 600;
+
+setInterval(
+    function(){
+
+        secondsLeft--;
+
+        if(secondsLeft <= 0){
+            secondsLeft = 600;
+        }
+
+        const minutes =
+            Math.floor(
+                secondsLeft / 60
+            );
+
+        const seconds =
+            secondsLeft % 60;
+
+        document
+            .getElementById("nextUpdate")
+            .textContent =
+                String(minutes).padStart(2,"0")
+                + ":"
+                + String(seconds).padStart(2,"0");
+
+    },
+    1000
+);
+
+
+let deferredPrompt = null;
+
+
+window.addEventListener(
+    "beforeinstallprompt",
+    function(event){
+
+        event.preventDefault();
+
+        deferredPrompt = event;
+
+        const button =
+            document.getElementById(
+                "installButton"
+            );
+
+        if(button){
+            button.style.display = "flex";
+        }
+
+    }
+);
+
+
+async function installApp(){
+
+    if(!deferredPrompt){
+
+        showToast(
+            "📱 Mở menu trình duyệt → Thêm vào màn hình chính."
+        );
+
+        return;
+
+    }
+
+    deferredPrompt.prompt();
+
+    await deferredPrompt.userChoice;
+
+    deferredPrompt = null;
+
+    const button =
+        document.getElementById(
+            "installButton"
+        );
+
+    if(button){
+        button.style.display = "none";
+    }
+
+}
+
+
+window.addEventListener(
+    "appinstalled",
+    function(){
+
+        const button =
+            document.getElementById(
+                "installButton"
+            );
+
+        if(button){
+            button.style.display = "none";
+        }
+
+        showToast(
+            "✅ Đã thêm Hùng Admin vào màn hình chính."
+        );
+
+    }
+);
+
+
+if("serviceWorker" in navigator){
+
+    window.addEventListener(
+        "load",
+        function(){
+
+            navigator.serviceWorker
+                .register("./sw.js")
+                .catch(
+                    function(error){
+
+                        console.log(
+                            "Service Worker:",
+                            error
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+}
+
+
+updateUI();
+
+</script>
+
+</body>
+  </html>
